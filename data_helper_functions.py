@@ -63,4 +63,12 @@ def inc_or_dec_prices(ticker_db,ticker,dt):
     reg = LinearRegression().fit(idxs.reshape(-1,1), prices.reshape(-1,1))
     slope = reg.coef_[0,0]
     return np.heaviside(slope,0.5)
-    
+
+def inc_or_dec_volume(ticker_db,ticker,dt):
+    # function for returning 0 or 1 based on whether the price data for a specific ticker increases or decreases
+    # datetime should be a datetime object corresponding to a tweet
+    prices = get_vols_prev_day(ticker_db,datetime).to_numpy()
+    idxs = np.arange(prices.size)
+    reg = LinearRegression().fit(idxs.reshape(-1,1), prices.reshape(-1,1))
+    slope = reg.coef_[0,0]
+    return np.heaviside(slope,0.5)
